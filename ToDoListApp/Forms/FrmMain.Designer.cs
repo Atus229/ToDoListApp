@@ -1,4 +1,4 @@
-﻿namespace ToDoListApp
+﻿namespace ToDoListApp.Forms
 {
     partial class FrmMain
     {
