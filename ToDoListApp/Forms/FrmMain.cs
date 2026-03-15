@@ -1,6 +1,6 @@
 namespace ToDoListApp.Forms
 {
-    public partial class FrmMain : Form
+    public partial class FrmMain : System.Windows.Forms.Form
     {
         public FrmMain()
         {
