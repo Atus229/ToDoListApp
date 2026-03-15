@@ -1,66 +1,39 @@
 ﻿using System.ComponentModel;
+using ToDoListApp.Models;
 namespace ToDoListApp
 {
     public partial class UC_TaskItem : UserControl
     {
+        private Quest _currentQuest;
+        public Quest TaskData => _currentQuest;
         // Constructor mặc định (WinForms cần cái này để hiện trong Designer)
         public UC_TaskItem()
         {
             InitializeComponent();
         }
-        // Các biến lưu trữ thông tin gốc
-        [Browsable(false)] // Không hiển thị trong bảng Properties
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] // Không lưu vào Designer
-        public int OriginalEXP { get; set; }
 
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int OriginalCoin { get; set; }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public DateTime Deadline { get; set; }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool IsOverdue { get; set; }
-
-
-        public UC_TaskItem(string taskName, int exp, int coin, Color priorityColor, DateTime deadline)
+        public UC_TaskItem(Quest q)
         {
             InitializeComponent();
+            this._currentQuest = q; // Lưu lại để dùng cho các hàm khác (như CheckBox Click)
 
-            lblTaskName.Text = taskName;
-            this.OriginalEXP = exp;
-            this.OriginalCoin = coin;
-            this.Deadline = deadline;
-            pnlPriority.BackColor = priorityColor;
+            // Đổ dữ liệu từ Model vào giao diện
+            lblTaskName.Text = q.Name;
+            pnlPriority.BackColor = q.PriorityColor;
+            lblDeadline.Text = q.Deadline.ToString("dd/MM/yyyy");
 
-            // Định dạng ngày tháng năm
-            lblDeadline.Text = deadline.ToString("dd/MM/yyyy");
+            // Sử dụng các hàm thông minh từ Model để hiển thị điểm
+            int exp = q.GetCalculatedExp();
+            int coin = q.GetCalculatedCoin();
 
-            CheckDeadline();
-        }
+            lblReward.Text = $"+{exp} EXP | {coin} Coins" + (q.IsOverdue ? " (TRỄ HẠN!)" : "");
 
-        private void CheckDeadline()
-        {
-            // Nếu thời gian hiện tại đã vượt quá Deadline
-            if (DateTime.Now > Deadline)
+            if (q.IsOverdue)
             {
-                IsOverdue = true;
-                lblDeadline.ForeColor = Color.Red; // Chuyển màu đỏ cảnh báo
-
-                // Logic giảm 50% điểm nếu trễ hạn (tùy bạn chỉnh số này)
-                int penaltyEXP = OriginalEXP / 2;
-                int penaltyCoin = OriginalCoin / 2;
-                lblReward.Text = $"+{penaltyEXP} EXP | {penaltyCoin} Coins (TRỄ HẠN!)";
-            }
-            else
-            {
-                IsOverdue = false;
-                lblReward.Text = $"+{OriginalEXP} EXP | {OriginalCoin} Coins";
+                lblDeadline.ForeColor = Color.Red;
             }
         }
+
 
         // Tạo một sự kiện để báo cho trang cha khi task hoàn thành
         public event EventHandler TaskCompleted;
