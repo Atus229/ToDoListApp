@@ -6,7 +6,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 
 
-namespace ToDoListApp
+namespace ToDoListApp.Helper
 {
     internal class DatabaseHelper
     {
