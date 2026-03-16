@@ -38,6 +38,7 @@
             parrotGradientPanel2 = new ReaLTaiizor.Controls.ParrotGradientPanel();
             lblTotalEXP = new Label();
             label4 = new Label();
+            btnAddQuest = new Button();
             panel1.SuspendLayout();
             parrotGradientPanel1.SuspendLayout();
             parrotGradientPanel2.SuspendLayout();
@@ -182,11 +183,26 @@
             label4.TabIndex = 1;
             label4.Text = "EXP :";
             // 
+            // btnAddQuest
+            // 
+            btnAddQuest.BackColor = Color.White;
+            btnAddQuest.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAddQuest.ForeColor = Color.FromArgb(255, 107, 129);
+            btnAddQuest.Location = new Point(759, 56);
+            btnAddQuest.Name = "btnAddQuest";
+            btnAddQuest.Size = new Size(69, 47);
+            btnAddQuest.TabIndex = 6;
+            btnAddQuest.Text = "+";
+            btnAddQuest.TextAlign = ContentAlignment.TopCenter;
+            btnAddQuest.UseVisualStyleBackColor = false;
+            btnAddQuest.Click += btnAddQuest_Click;
+            // 
             // UC_TaskPage
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(15, 15, 15);
+            Controls.Add(btnAddQuest);
             Controls.Add(parrotGradientPanel2);
             Controls.Add(parrotGradientPanel1);
             Controls.Add(panel1);
@@ -216,5 +232,6 @@
         private Label lblTotalEXP;
         private Label label4;
         private Label lblTotalCoin;
+        private Button btnAddQuest;
     }
 }

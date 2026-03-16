@@ -1,4 +1,5 @@
-﻿using ToDoListApp.Models;
+﻿using ToDoListApp.Forms;
+using ToDoListApp.Models;
 
 namespace ToDoListApp
 {
@@ -59,12 +60,21 @@ namespace ToDoListApp
         {
             UC_TaskItem item = (UC_TaskItem)sender;
 
-            // Tạo hiệu ứng chờ một chút rồi xóa
-            System.Windows.Forms.Timer delay = new System.Windows.Forms.Timer { Interval = 500 };
-            delay.Tick += (s, args) =>
+            // 1. Cộng điểm vào "Bộ não" Player
+            Player.TotalExp += item.TaskData.GetCalculatedExp();
+            Player.TotalCoin += item.TaskData.GetCalculatedCoin();
+
+            // 2. Tìm về Form chính (FrmMain) để yêu cầu cập nhật Sidebar
+            if (this.ParentForm is FrmMain mainForm)
             {
+                mainForm.UpdateSidebarStats();
+            }
+
+            // 3. Hiệu ứng xóa task (giữ nguyên như cũ)
+            System.Windows.Forms.Timer delay = new System.Windows.Forms.Timer { Interval = 500 };
+            delay.Tick += (s, args) => {
                 flpTasks.Controls.Remove(item);
-                UpdateTotalPotentialRewards(); // Tính lại tổng điểm sau khi xóa
+                UpdateTotalPotentialRewards();
                 delay.Stop();
                 delay.Dispose();
             };
@@ -87,6 +97,33 @@ namespace ToDoListApp
             lblTotalCoin.Text = totalCoin.ToString();
         }
 
+        private void btnAddQuest_Click(object sender, EventArgs e)
+        {
+            // Tạo một phiên làm việc với Form Add Quest
+            using (FrmAddQuest frm = new FrmAddQuest())
+            {
+                // Nếu người dùng nhấn nút "Lưu" (DialogResult.OK)
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    // Lấy cái Quest mới vừa được tạo ra
+                    Quest q = frm.NewQuest;
 
+                    // Tạo một thẻ nhiệm vụ (UC_TaskItem) mới từ Quest đó
+                    UC_TaskItem item = new UC_TaskItem(q);
+
+                    // Đừng quên kết nối sự kiện hoàn thành nhiệm vụ!
+                    item.TaskCompleted += Item_TaskCompleted;
+
+                    // Thêm vào bảng hiển thị
+                    flpTasks.Controls.Add(item);
+
+                    // Đưa nhiệm vụ mới nhất lên đầu danh sách
+                    flpTasks.Controls.SetChildIndex(item, 0);
+
+                    // Cập nhật lại tổng EXP/Coin hiển thị ở dưới đáy trang
+                    UpdateTotalPotentialRewards();
+                }
+            }
+        }
     }
 }

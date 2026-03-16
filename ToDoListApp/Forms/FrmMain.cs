@@ -1,3 +1,5 @@
+using ToDoListApp.Models;
+
 namespace ToDoListApp.Forms
 {
     public partial class FrmMain : System.Windows.Forms.Form
@@ -48,7 +50,18 @@ namespace ToDoListApp.Forms
             // 3. Đưa trang mới vào khay
             pnlContainer.Controls.Add(uc);
         }
+        public void UpdateSidebarStats()
+        {
+            // Cập nhật Label Level (ví dụ: label1 của bạn)
+            label1.Text = $"LEVEL {Player.CurrentLevel:D2}";
 
+            // Cập nhật Thanh kinh nghiệm (pbExp)
+            pbExp.Maximum = Player.ExpToNextLevel;
+            pbExp.Value = Player.CurrentExpProgress;
+
+            
+            lblSidebarCoin.Text = ("Coins: " + Player.TotalCoin.ToString());
+        }
 
     }
 }

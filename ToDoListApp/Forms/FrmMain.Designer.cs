@@ -42,6 +42,7 @@
             pbExp = new ReaLTaiizor.Controls.ForeverProgressBar();
             label1 = new Label();
             panel1 = new Panel();
+            lblSidebarCoin = new Label();
             nightForm1.SuspendLayout();
             pnlPetFrame.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picPet).BeginInit();
@@ -102,6 +103,7 @@
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 20);
             panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Controls.Add(lblSidebarCoin);
             panel2.Controls.Add(btnPending);
             panel2.Controls.Add(btnStore);
             panel2.Controls.Add(btnCompleted);
@@ -240,7 +242,7 @@
             pbExp.BaseColor = Color.FromArgb(45, 47, 49);
             pbExp.DarkerProgress = Color.FromArgb(214, 78, 99);
             pbExp.ForeColor = Color.FromArgb(214, 78, 99);
-            pbExp.Location = new Point(22, 206);
+            pbExp.Location = new Point(22, 233);
             pbExp.Maximum = 100;
             pbExp.MoveBalloon = true;
             pbExp.Name = "pbExp";
@@ -258,7 +260,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(55, 172);
+            label1.Location = new Point(55, 141);
             label1.Name = "label1";
             label1.Size = new Size(109, 31);
             label1.TabIndex = 0;
@@ -274,6 +276,18 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1082, 50);
             panel1.TabIndex = 0;
+            // 
+            // lblSidebarCoin
+            // 
+            lblSidebarCoin.AutoSize = true;
+            lblSidebarCoin.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblSidebarCoin.ForeColor = Color.White;
+            lblSidebarCoin.Location = new Point(22, 189);
+            lblSidebarCoin.Name = "lblSidebarCoin";
+            lblSidebarCoin.Size = new Size(110, 28);
+            lblSidebarCoin.TabIndex = 10;
+            lblSidebarCoin.Text = "Coins: 100";
+            lblSidebarCoin.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // FrmMain
             // 
@@ -314,5 +328,6 @@
         private ReaLTaiizor.Controls.ParrotButton btnCompleted;
         private Panel pnlContainer;
         private ReaLTaiizor.Controls.ParrotButton btnPending;
+        private Label lblSidebarCoin;
     }
 }

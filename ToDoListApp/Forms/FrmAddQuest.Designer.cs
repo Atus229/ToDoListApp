@@ -130,6 +130,7 @@
             cboPriority.Name = "cboPriority";
             cboPriority.Size = new Size(151, 28);
             cboPriority.TabIndex = 13;
+            cboPriority.SelectedIndexChanged += cboPriority_SelectedIndexChanged;
             // 
             // dtpDeadline
             // 

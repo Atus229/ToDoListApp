@@ -20,34 +20,27 @@ namespace ToDoListApp.Forms
             cboPriority.SelectedIndex = 0;
         }
 
+
+
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // 1. Kiểm tra hợp lệ (Validation)
+            // 1. Kiểm tra xem người dùng có bỏ trống tên nhiệm vụ không
             if (string.IsNullOrWhiteSpace(txtQuestName.Text))
             {
-                MessageBox.Show("Bạn chưa đặt tên cho thử thách mà!", "Nhắc nhở nhẹ");
+                MessageBox.Show("Nhiệm vụ phải có tên chứ bạn ơi!", "Thông báo");
                 return;
             }
 
-            // 2. Máy tự tính điểm dựa trên Priority (như bạn đã yêu cầu)
-            int exp = 0;
-            int coin = 0;
-            Color pColor = Color.Gray;
+            // 2. Lấy dữ liệu điểm và màu sắc dựa trên những gì đang hiển thị trên Label
+            // (Vì máy đã tính ở hàm SelectedIndexChanged rồi, ta chỉ việc lấy lại thôi)
+            int exp = (cboPriority.SelectedIndex == 0) ? 100 : (cboPriority.SelectedIndex == 2 ? 20 : 50);
+            int coin = (cboPriority.SelectedIndex == 0) ? 50 : (cboPriority.SelectedIndex == 2 ? 5 : 20);
 
-            switch (cboPriority.SelectedIndex)
-            {
-                case 0: // Gấp
-                    exp = 100; coin = 50; pColor = Color.Red;
-                    break;
-                case 2: // Thấp
-                    exp = 20; coin = 5; pColor = Color.Green;
-                    break;
-                default: // Thường
-                    exp = 50; coin = 20; pColor = Color.Yellow;
-                    break;
-            }
+            Color pColor = Color.Yellow; // Mặc định là Thường
+            if (cboPriority.SelectedIndex == 2) pColor = Color.Red;
+            else if (cboPriority.SelectedIndex == 0) pColor = Color.Green;
 
-            // 3. Đóng gói vào Model
+            // 3. Đóng gói vào đối tượng NewQuest
             NewQuest = new Quest
             {
                 Name = txtQuestName.Text,
@@ -58,9 +51,31 @@ namespace ToDoListApp.Forms
                 IsDone = false
             };
 
-            // 4. Trả về kết quả thành công và đóng Form
+            // 4. Báo hiệu thành công và đóng Form
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void cboPriority_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Cấu hình điểm số theo lựa chọn
+            switch (cboPriority.SelectedIndex)
+            {
+                case 2: // Urgent
+                    lblExpValue.Text = "100 EXP";
+                    lblCoinValue.Text = "50 COINS";
+                    break;
+
+                case 0: // Normal
+                    lblExpValue.Text = "20 EXP";
+                    lblCoinValue.Text = "5 COINS";
+                    break;
+
+                default: // Important
+                    lblExpValue.Text = "50 EXP";
+                    lblCoinValue.Text = "20 COINS";
+                    break;
+            }
         }
     }
 }
