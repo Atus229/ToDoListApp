@@ -39,9 +39,13 @@
             lblTotalEXP = new Label();
             label4 = new Label();
             btnAddQuest = new Button();
+            panel2 = new Panel();
+            txtSearch = new TextBox();
+            comboBox1 = new ComboBox();
             panel1.SuspendLayout();
             parrotGradientPanel1.SuspendLayout();
             parrotGradientPanel2.SuspendLayout();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -197,11 +201,37 @@
             btnAddQuest.UseVisualStyleBackColor = false;
             btnAddQuest.Click += btnAddQuest_Click;
             // 
+            // panel2
+            // 
+            panel2.Controls.Add(txtSearch);
+            panel2.Location = new Point(358, 56);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(386, 47);
+            panel2.TabIndex = 7;
+            // 
+            // txtSearch
+            // 
+            txtSearch.Location = new Point(3, 10);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(251, 27);
+            txtSearch.TabIndex = 0;
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "All", "Today", "Completed", "Done" });
+            comboBox1.Location = new Point(629, 65);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(112, 28);
+            comboBox1.TabIndex = 0;
+            // 
             // UC_TaskPage
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(15, 15, 15);
+            Controls.Add(comboBox1);
+            Controls.Add(panel2);
             Controls.Add(btnAddQuest);
             Controls.Add(parrotGradientPanel2);
             Controls.Add(parrotGradientPanel1);
@@ -216,6 +246,8 @@
             parrotGradientPanel1.PerformLayout();
             parrotGradientPanel2.ResumeLayout(false);
             parrotGradientPanel2.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -233,5 +265,8 @@
         private Label label4;
         private Label lblTotalCoin;
         private Button btnAddQuest;
+        private Panel panel2;
+        private TextBox txtSearch;
+        private ComboBox comboBox1;
     }
 }

@@ -50,5 +50,30 @@ namespace ToDoListApp
                 TaskCompleted?.Invoke(this, EventArgs.Empty);
             }
         }
+
+        public event EventHandler TaskDeleted;
+
+
+        private void btnDeleteTask_Click(object sender, EventArgs e)
+        {
+            // Hỏi lại cho chắc
+            DialogResult result = MessageBox.Show("Bạn muốn xóa nhiệm vụ này?", "Xác nhận", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                // 2. Kích hoạt event để UC_TaskPage xử lý
+                TaskDeleted?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        private void lblReward_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        public event EventHandler TaskEdited;
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            TaskEdited?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

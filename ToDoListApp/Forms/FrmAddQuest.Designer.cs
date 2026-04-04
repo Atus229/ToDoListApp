@@ -100,7 +100,7 @@
             btnCancel.Text = "Cancel";
             btnCancel.TextAlign = ContentAlignment.TopCenter;
             btnCancel.UseVisualStyleBackColor = false;
-            btnCancel.UseWaitCursor = true;
+            btnCancel.Click += btnCancel_Click;
             // 
             // lblCoinValue
             // 
@@ -153,7 +153,6 @@
             btnSave.Text = "Save";
             btnSave.TextAlign = ContentAlignment.TopCenter;
             btnSave.UseVisualStyleBackColor = false;
-            btnSave.UseWaitCursor = true;
             btnSave.Click += btnSave_Click;
             // 
             // FrmAddQuest

@@ -11,47 +11,84 @@ namespace ToDoListApp.Forms
 {
     public partial class FrmAddQuest : Form
     {
+        // Tạo một biến để đánh dấu
+        private bool isEditMode = false;
         public Quest NewQuest { get; private set; }
         public FrmAddQuest()
         {
             InitializeComponent();
+            this.Text = "ADD NEW QUEST";
 
             // Thiết lập mục chọn mặc định (Vị trí số 0 là "Normal")
             cboPriority.SelectedIndex = 0;
         }
 
+        // Constructor mới dành cho việc SỬA
+        public FrmAddQuest(Quest existingQuest)
+        {
+            InitializeComponent();
+            isEditMode = true;
+            this.Text = "EDIT QUEST";
 
+            // Đổ dữ liệu cũ vào các ô nhập liệu
+            txtQuestName.Text = existingQuest.Name;
+            dtpDeadline.Value = existingQuest.Deadline;
+
+            // Chọn lại đúng độ ưu tiên trong ComboBox
+            if (existingQuest.BaseExp == 100) cboPriority.SelectedIndex = 0; // Urgent
+            else if (existingQuest.BaseExp == 50) cboPriority.SelectedIndex = 1; // Important
+            else cboPriority.SelectedIndex = 2; // Normal
+
+            // Lưu lại cái Quest đang sửa để lát nữa nút Save dùng
+            this.NewQuest = existingQuest;
+        }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // 1. Kiểm tra xem người dùng có bỏ trống tên nhiệm vụ không
             if (string.IsNullOrWhiteSpace(txtQuestName.Text))
             {
-                MessageBox.Show("Nhiệm vụ phải có tên chứ bạn ơi!", "Thông báo");
+                MessageBox.Show("Vui lòng nhập tên nhiệm vụ!");
                 return;
             }
 
-            // 2. Lấy dữ liệu điểm và màu sắc dựa trên những gì đang hiển thị trên Label
-            // (Vì máy đã tính ở hàm SelectedIndexChanged rồi, ta chỉ việc lấy lại thôi)
-            int exp = (cboPriority.SelectedIndex == 0) ? 100 : (cboPriority.SelectedIndex == 2 ? 20 : 50);
-            int coin = (cboPriority.SelectedIndex == 0) ? 50 : (cboPriority.SelectedIndex == 2 ? 5 : 20);
+            // Khai báo mặc định
+            int exp = 20; int coin = 5; Color pColor = Color.Green;
+            string selected = cboPriority.Text.Trim(); // Cắt bỏ khoảng trắng thừa
 
-            Color pColor = Color.Yellow; // Mặc định là Thường
-            if (cboPriority.SelectedIndex == 2) pColor = Color.Red;
-            else if (cboPriority.SelectedIndex == 0) pColor = Color.Green;
+            switch (selected)
+            {
+                case "Urgent":
+                    exp = 100; coin = 50; pColor = Color.Red;
+                    break;
 
-            // 3. Đóng gói vào đối tượng NewQuest
+                case "Important":
+                    exp = 50; coin = 20; pColor = Color.Yellow;
+                    break;
+
+                case "Normal":
+                    // SỬA TẠI ĐÂY: Đảm bảo số điểm khác với Important để dễ phân biệt
+                    exp = 20;
+                    coin = 5;
+                    pColor = Color.Green;
+                    break;
+
+                default: // Mặc định là Low/Thấp
+                    exp = 20; coin = 5; pColor = Color.Green;
+                    break;
+            }
+
+            // Gán vào NewQuest
             NewQuest = new Quest
             {
+                Id = (this.NewQuest != null) ? this.NewQuest.Id : 0,
                 Name = txtQuestName.Text,
                 BaseExp = exp,
                 BaseCoin = coin,
-                Deadline = dtpDeadline.Value,
                 PriorityColor = pColor,
+                Deadline = dtpDeadline.Value,
                 IsDone = false
             };
 
-            // 4. Báo hiệu thành công và đóng Form
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -71,11 +108,25 @@ namespace ToDoListApp.Forms
                     lblCoinValue.Text = "5 COINS";
                     break;
 
-                default: // Important
+                case 1: // Important
                     lblExpValue.Text = "50 EXP";
                     lblCoinValue.Text = "20 COINS";
                     break;
+                default:
+                    lblExpValue.Text = "20 EXP";
+                    lblCoinValue.Text = "5 COINS";
+                    break;
+
             }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            // 1. Gán kết quả trả về là Cancel
+            this.DialogResult = DialogResult.Cancel;
+
+            // 2. Đóng Form ngay lập tức
+            this.Close();
         }
     }
 }

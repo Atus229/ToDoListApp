@@ -10,27 +10,40 @@ namespace ToDoListApp.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int BaseExp { get; set; }
-        public int BaseCoin { get; set; }
+        public int BaseExp { get; set; }  // Lưu con số thực tế
+        public int BaseCoin { get; set; } // Lưu con số thực tế
         public DateTime Deadline { get; set; }
-        public System.Drawing.Color PriorityColor { get; set; }
+        public Color PriorityColor { get; set; }
         public bool IsDone { get; set; }
 
-        // Logic kiểm tra trễ hạn(Chuyển từ UI sang Model)
-        public bool IsOverdue => DateTime.Now > Deadline && !IsDone;
-
-        // Hàm tính EXP thực tế nhận được (đã trừ phạt nếu trễ)
+        // Sửa hàm này thành: Trả về chính nó luôn
         public int GetCalculatedExp()
         {
-            if (IsOverdue) return BaseExp / 2;
-            return BaseExp;
-        }
+            // 1. Ưu tiên hàng đầu: Nếu BaseExp đã có giá trị từ DB (khác 0), lấy luôn giá trị đó
+            int originalExp = this.BaseExp;
 
-        // Hàm tính Coin thực tế nhận được
+            // Nếu quá hạn, giảm 50% điểm (chia 2)
+            if (IsOverdue)
+            {
+                return originalExp / 2;
+            }
+
+            return originalExp;
+        }
         public int GetCalculatedCoin()
         {
-            if (IsOverdue) return BaseCoin / 2;
-            return BaseCoin;
+            int originalCoin = this.BaseCoin;
+
+            // Nếu quá hạn, giảm 50% coin (chia 2)
+            if (IsOverdue)
+            {
+                return originalCoin / 2;
+            }
+
+            return originalCoin;
         }
+
+        // Sử dụng .Date để chỉ so sánh Ngày/Tháng/Năm
+        public bool IsOverdue => !IsDone && DateTime.Today > Deadline.Date;
     }
 }

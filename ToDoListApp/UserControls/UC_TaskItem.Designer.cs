@@ -33,6 +33,8 @@
             lblTaskName = new Label();
             lblReward = new Label();
             lblDeadline = new Label();
+            btnDeleteTask = new Button();
+            btnEdit = new Button();
             SuspendLayout();
             // 
             // pnlPriority
@@ -78,32 +80,65 @@
             // lblReward
             // 
             lblReward.BorderStyle = BorderStyle.FixedSingle;
-            lblReward.Dock = DockStyle.Right;
             lblReward.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblReward.ForeColor = Color.FromArgb(255, 107, 129);
-            lblReward.Location = new Point(592, 5);
+            lblReward.Location = new Point(504, 5);
             lblReward.Name = "lblReward";
             lblReward.Size = new Size(133, 40);
             lblReward.TabIndex = 5;
             lblReward.Text = "+50 EXP | 10 Coins";
             lblReward.TextAlign = ContentAlignment.MiddleLeft;
+            lblReward.Click += lblReward_Click;
             // 
             // lblDeadline
             // 
             lblDeadline.AutoSize = true;
             lblDeadline.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblDeadline.ForeColor = Color.White;
-            lblDeadline.Location = new Point(465, 13);
+            lblDeadline.Location = new Point(392, 13);
             lblDeadline.Name = "lblDeadline";
             lblDeadline.Size = new Size(106, 23);
             lblDeadline.TabIndex = 6;
             lblDeadline.Text = "15/03/2026";
+            // 
+            // btnDeleteTask
+            // 
+            btnDeleteTask.Cursor = Cursors.Hand;
+            btnDeleteTask.Dock = DockStyle.Right;
+            btnDeleteTask.FlatStyle = FlatStyle.Flat;
+            btnDeleteTask.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnDeleteTask.ForeColor = Color.White;
+            btnDeleteTask.Location = new Point(690, 5);
+            btnDeleteTask.Margin = new Padding(5);
+            btnDeleteTask.Name = "btnDeleteTask";
+            btnDeleteTask.Size = new Size(35, 40);
+            btnDeleteTask.TabIndex = 7;
+            btnDeleteTask.Text = "X";
+            btnDeleteTask.UseVisualStyleBackColor = true;
+            btnDeleteTask.Click += btnDeleteTask_Click;
+            // 
+            // btnEdit
+            // 
+            btnEdit.Cursor = Cursors.Hand;
+            btnEdit.FlatStyle = FlatStyle.Flat;
+            btnEdit.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEdit.ForeColor = Color.White;
+            btnEdit.Location = new Point(645, 5);
+            btnEdit.Margin = new Padding(5);
+            btnEdit.Name = "btnEdit";
+            btnEdit.Size = new Size(35, 40);
+            btnEdit.TabIndex = 8;
+            btnEdit.Text = "✏";
+            btnEdit.UseVisualStyleBackColor = true;
+            btnEdit.Click += btnEdit_Click;
             // 
             // UC_TaskItem
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(25, 25, 25);
+            Controls.Add(btnEdit);
+            Controls.Add(btnDeleteTask);
             Controls.Add(lblDeadline);
             Controls.Add(lblReward);
             Controls.Add(lblTaskName);
@@ -124,5 +159,7 @@
         private Label lblTaskName;
         private Label lblReward;
         private Label lblDeadline;
+        private Button btnDeleteTask;
+        private Button btnEdit;
     }
 }
