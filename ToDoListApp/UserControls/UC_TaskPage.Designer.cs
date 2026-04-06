@@ -41,7 +41,7 @@
             btnAddQuest = new Button();
             panel2 = new Panel();
             txtSearch = new TextBox();
-            comboBox1 = new ComboBox();
+            cboFilter = new ComboBox();
             panel1.SuspendLayout();
             parrotGradientPanel1.SuspendLayout();
             parrotGradientPanel2.SuspendLayout();
@@ -215,22 +215,24 @@
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(251, 27);
             txtSearch.TabIndex = 0;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
-            // comboBox1
+            // cboFilter
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "All", "Today", "Completed", "Done" });
-            comboBox1.Location = new Point(629, 65);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(112, 28);
-            comboBox1.TabIndex = 0;
+            cboFilter.FormattingEnabled = true;
+            cboFilter.Items.AddRange(new object[] { "All", "Today", "Pending", "Done" });
+            cboFilter.Location = new Point(629, 65);
+            cboFilter.Name = "cboFilter";
+            cboFilter.Size = new Size(112, 28);
+            cboFilter.TabIndex = 0;
+            cboFilter.SelectedIndexChanged += cboFilter_SelectedIndexChanged;
             // 
             // UC_TaskPage
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(15, 15, 15);
-            Controls.Add(comboBox1);
+            Controls.Add(cboFilter);
             Controls.Add(panel2);
             Controls.Add(btnAddQuest);
             Controls.Add(parrotGradientPanel2);
@@ -267,6 +269,6 @@
         private Button btnAddQuest;
         private Panel panel2;
         private TextBox txtSearch;
-        private ComboBox comboBox1;
+        private ComboBox cboFilter;
     }
 }

@@ -1,3 +1,4 @@
+using System.Data;
 using ToDoListApp.Models;
 using ToDoListApp.UserControls;
 
@@ -5,9 +6,11 @@ namespace ToDoListApp.Forms
 {
     public partial class FrmMain : System.Windows.Forms.Form
     {
+        public static FrmMain Instance;
         public FrmMain()
         {
             InitializeComponent();
+            Instance = this;
 
         }
 
@@ -134,14 +137,44 @@ namespace ToDoListApp.Forms
 
         private void btnAchievements_Click(object sender, EventArgs e)
         {
-            //ShowUserControl(new UC_Achievements());
+            ShowUserControl(new UC_Achievement());
             HighlightButton((Control)sender);
         }
 
         private void btnStatistics_Click(object sender, EventArgs e)
         {
-            // ShowUserControl(new UC_Statistics());
+            ShowUserControl(new UC_Statistics());
             HighlightButton((Control)sender);
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            ShowUserControl(new UC_Inventory());
+        }
+
+        public void RefreshPlayerStats()
+        {
+            string query = "SELECT TotalExp, TotalCoin FROM PlayerStats WHERE Id = 1";
+            DataTable dt = ToDoListApp.Helper.DatabaseHelper.GetData(query);
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                // 1. Cập nhật EXP và Thanh tiến trình
+                int currentExp = Convert.ToInt32(dt.Rows[0]["TotalExp"]);
+                int maxExpForLevel = 1000;
+
+                // 1. Cài đặt cực đại cho thanh bar bằng đúng số EXP cần để lên cấp
+                pbExp.Maximum = maxExpForLevel;
+
+                // 2. Gán trực tiếp giá trị thực
+                pbExp.Value = currentExp; // Lúc này nó sẽ hiện đúng số 200
+
+                // 2. BỔ SUNG DÒNG NÀY: Cập nhật Coin trên Sidebar
+                lblSidebarCoin.Text = $"Coins: {dt.Rows[0]["TotalCoin"]}";
+
+                //// Buộc Sidebar vẽ lại giao diện ngay lập tức
+                //pnlSidebar.Invalidate();
+            }
         }
     }
 }

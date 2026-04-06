@@ -1,6 +1,6 @@
 ﻿namespace ToDoListApp.UserControls
 {
-    partial class UC_StoreItem
+    partial class UC_InventoryItem
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             pnlStoreItem = new Panel();
-            btnBuy = new Button();
-            lblPrice = new Label();
+            btnUse = new Button();
+            lblQuantity = new Label();
             lblItemName = new Label();
             picItem = new PictureBox();
             pnlStoreItem.SuspendLayout();
@@ -40,40 +40,40 @@
             // pnlStoreItem
             // 
             pnlStoreItem.BackColor = Color.FromArgb(30, 30, 30);
-            pnlStoreItem.Controls.Add(btnBuy);
-            pnlStoreItem.Controls.Add(lblPrice);
+            pnlStoreItem.Controls.Add(btnUse);
+            pnlStoreItem.Controls.Add(lblQuantity);
             pnlStoreItem.Controls.Add(lblItemName);
             pnlStoreItem.Controls.Add(picItem);
             pnlStoreItem.Dock = DockStyle.Fill;
-            pnlStoreItem.Location = new Point(1, 1);
+            pnlStoreItem.Location = new Point(0, 0);
             pnlStoreItem.Name = "pnlStoreItem";
             pnlStoreItem.Size = new Size(178, 248);
-            pnlStoreItem.TabIndex = 0;
+            pnlStoreItem.TabIndex = 1;
             // 
-            // btnBuy
+            // btnUse
             // 
-            btnBuy.BackColor = Color.White;
-            btnBuy.Cursor = Cursors.Hand;
-            btnBuy.Font = new Font("Segoe UI Black", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnBuy.ForeColor = Color.FromArgb(255, 107, 129);
-            btnBuy.Location = new Point(42, 203);
-            btnBuy.Name = "btnBuy";
-            btnBuy.Size = new Size(94, 29);
-            btnBuy.TabIndex = 3;
-            btnBuy.Text = "BUY";
-            btnBuy.UseVisualStyleBackColor = false;
-            btnBuy.Click += btnBuy_Click;
+            btnUse.BackColor = Color.White;
+            btnUse.Cursor = Cursors.Hand;
+            btnUse.Font = new Font("Segoe UI Black", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnUse.ForeColor = Color.FromArgb(255, 107, 129);
+            btnUse.Location = new Point(42, 203);
+            btnUse.Name = "btnUse";
+            btnUse.Size = new Size(94, 29);
+            btnUse.TabIndex = 3;
+            btnUse.Text = "USE";
+            btnUse.UseVisualStyleBackColor = false;
+            btnUse.Click += btnUse_Click;
             // 
-            // lblPrice
+            // lblQuantity
             // 
-            lblPrice.AutoSize = true;
-            lblPrice.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblPrice.ForeColor = Color.Gold;
-            lblPrice.Location = new Point(108, 156);
-            lblPrice.Name = "lblPrice";
-            lblPrice.Size = new Size(57, 23);
-            lblPrice.TabIndex = 2;
-            lblPrice.Text = "💰 50";
+            lblQuantity.AutoSize = true;
+            lblQuantity.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblQuantity.ForeColor = Color.Gold;
+            lblQuantity.Location = new Point(108, 156);
+            lblQuantity.Name = "lblQuantity";
+            lblQuantity.Size = new Size(52, 23);
+            lblQuantity.TabIndex = 2;
+            lblQuantity.Text = "SL: 10";
             // 
             // lblItemName
             // 
@@ -96,15 +96,13 @@
             picItem.TabIndex = 0;
             picItem.TabStop = false;
             // 
-            // UC_StoreItem
+            // UC_InventoryItem
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(255, 107, 129);
             Controls.Add(pnlStoreItem);
-            Name = "UC_StoreItem";
-            Padding = new Padding(1);
-            Size = new Size(180, 250);
+            Name = "UC_InventoryItem";
+            Size = new Size(178, 248);
             pnlStoreItem.ResumeLayout(false);
             pnlStoreItem.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picItem).EndInit();
@@ -114,9 +112,9 @@
         #endregion
 
         private Panel pnlStoreItem;
+        private Button btnUse;
+        private Label lblQuantity;
         private Label lblItemName;
         private PictureBox picItem;
-        private Button btnBuy;
-        private Label lblPrice;
     }
 }

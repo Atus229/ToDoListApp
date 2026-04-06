@@ -65,6 +65,7 @@
             chkDone.TextRenderingType = System.Drawing.Text.TextRenderingHint.SystemDefault;
             chkDone.TickThickness = 2;
             chkDone.CheckedStateChanged += chkDone_CheckedChanged;
+            chkDone.Click += chkDone_Click;
             // 
             // lblTaskName
             // 

@@ -34,6 +34,7 @@
             pnlPetFrame = new Panel();
             picPet = new PictureBox();
             panel2 = new Panel();
+            pictureBox1 = new PictureBox();
             btnStatistics = new ReaLTaiizor.Controls.ParrotButton();
             btnAchievements = new ReaLTaiizor.Controls.ParrotButton();
             lblSidebarCoin = new Label();
@@ -47,6 +48,7 @@
             pnlPetFrame.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picPet).BeginInit();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -105,6 +107,7 @@
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 20);
             panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Controls.Add(pictureBox1);
             panel2.Controls.Add(btnStatistics);
             panel2.Controls.Add(btnAchievements);
             panel2.Controls.Add(lblSidebarCoin);
@@ -117,6 +120,19 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(220, 572);
             panel2.TabIndex = 1;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Cursor = Cursors.Hand;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(167, 189);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(35, 31);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
             // 
             // btnStatistics
             // 
@@ -232,7 +248,7 @@
             pbExp.BaseColor = Color.FromArgb(45, 47, 49);
             pbExp.DarkerProgress = Color.FromArgb(214, 78, 99);
             pbExp.ForeColor = Color.FromArgb(214, 78, 99);
-            pbExp.Location = new Point(22, 233);
+            pbExp.Location = new Point(3, 243);
             pbExp.Maximum = 100;
             pbExp.MoveBalloon = true;
             pbExp.Name = "pbExp";
@@ -240,7 +256,7 @@
             pbExp.PercentSign = false;
             pbExp.ProgressColor = Color.FromArgb(255, 107, 129);
             pbExp.ShowBalloon = true;
-            pbExp.Size = new Size(180, 42);
+            pbExp.Size = new Size(199, 42);
             pbExp.TabIndex = 5;
             pbExp.Text = "foreverProgressBar1";
             pbExp.Value = 70;
@@ -302,6 +318,7 @@
             ((System.ComponentModel.ISupportInitialize)picPet).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -319,11 +336,12 @@
         private ReaLTaiizor.Controls.ParrotButton parrotButton3;
         private ReaLTaiizor.Controls.ParrotButton parrotButton2;
         private ReaLTaiizor.Controls.ParrotButton btnStore;
-        private Panel pnlContainer;
         private Label lblSidebarCoin;
         private Button btnCloseApp;
         private ReaLTaiizor.Controls.ParrotButton parrotButton4;
         private ReaLTaiizor.Controls.ParrotButton btnAchievements;
         private ReaLTaiizor.Controls.ParrotButton btnStatistics;
+        private PictureBox pictureBox1;
+        public Panel pnlContainer;
     }
 }

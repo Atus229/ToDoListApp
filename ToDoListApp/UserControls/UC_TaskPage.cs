@@ -20,51 +20,15 @@ namespace ToDoListApp
 
         private void UC_TaskPage_Load(object sender, EventArgs e)
         {
-            flpTasks.Controls.Clear();
-
-            // 1. Viết câu lệnh SQL lấy danh sách (Ví dụ lấy All)
-            string query = "SELECT * FROM Quests";
-
-            // 2. Lấy dữ liệu qua DatabaseHelper
-            DataTable dt = ToDoListApp.Helper.DatabaseHelper.GetData(query);
-
-            // 3. Duyệt từng dòng trong DataTable để tạo TaskItem
-            foreach (DataRow row in dt.Rows)
+            // Đảm bảo ComboBox đã có các Items: All, Today, Pending, Done
+            // Chọn "All" làm mặc định
+            int indexAll = cboFilter.FindStringExact("All");
+            if (indexAll != -1)
             {
-                Quest q = new Quest
-                {
-                    Id = Convert.ToInt32(row["Id"]),
-                    Name = row["TaskName"].ToString(),
-
-                    // CỰC KỲ QUAN TRỌNG: Phải nạp 2 dòng này từ Database
-                    BaseExp = Convert.ToInt32(row["BaseExp"]),
-                    BaseCoin = Convert.ToInt32(row["BaseCoin"]),
-
-                    Deadline = Convert.ToDateTime(row["Deadline"]),
-                    PriorityColor = Color.FromName(row["PriorityColor"].ToString()),
-                    IsDone = Convert.ToBoolean(row["IsDone"])
-                };
-
-                // Lọc theo loại trang (Today, Pending...)
-                bool isMatched = false;
-                switch (_currentType)
-                {
-                    case TaskType.All: isMatched = !q.IsDone; break;
-                    case TaskType.Today: isMatched = q.Deadline.Date == DateTime.Today && !q.IsDone; break;
-                    case TaskType.Pending: isMatched = q.IsOverdue && !q.IsDone; break;
-                    case TaskType.Completed: isMatched = q.IsDone; break;
-                }
-
-                if (isMatched)
-                {
-                    UC_TaskItem item = new UC_TaskItem(q);
-                    item.TaskCompleted += Item_TaskCompleted;
-                    item.TaskDeleted += Item_TaskDeleted;
-                    item.TaskEdited += Item_TaskEdited;
-                    flpTasks.Controls.Add(item);
-                }
+                cboFilter.SelectedIndex = indexAll;
             }
-            UpdateTotalPotentialRewards();
+
+            LoadTasks();
         }
 
         private void UpdateTitle()
@@ -81,35 +45,68 @@ namespace ToDoListApp
         {
             UC_TaskItem item = (UC_TaskItem)sender;
             int taskId = item.TaskData.Id;
-            int expGain = item.TaskData.GetCalculatedExp();
-            int coinGain = item.TaskData.GetCalculatedCoin();
+
+            // 1. LẤY ĐIỂM GỐC TỪ QUEST
+            int expGain = item.TaskData.BaseExp;
+            int coinGain = item.TaskData.BaseCoin;
+
+            // 2. KIỂM TRA TRẠNG THÁI TRỄ HẠN (Overdue)
+            bool isOverdue = DateTime.Now.Date > item.TaskData.Deadline.Date;
+
+            // 3. LOGIC BUFF 1: SHIELD (KHIÊN CHỐNG TRỪ ĐIỂM)
+            if (isOverdue)
+            {
+                if (Player.IsShieldActive) // Nếu đang bật khiên
+                {
+                    // Giữ nguyên điểm gốc, không bị chia đôi
+                    // Shield chỉ dùng 1 lần nên ta sẽ tắt nó sau khi update DB
+                }
+                else
+                {
+                    // Không có khiên -> Phạt trễ hạn 50%
+                    expGain /= 2;
+                    coinGain /= 2;
+                }
+            }
+
+            // 4. LOGIC BUFF 2: X2 EXP
+            if (Player.IsDoubleExpActive)
+            {
+                expGain *= 2;
+            }
 
             // --- BƯỚC 1: CẬP NHẬT DATABASE ---
 
-            // 1.1 Cập nhật trạng thái IsDone cho nhiệm vụ
-            string queryTask = $"UPDATE Quests SET IsDone = 1 WHERE Id = {taskId}";
+            // 1.1 Cập nhật trạng thái nhiệm vụ
+            string queryTask = $"UPDATE Quests SET IsDone = 1, CompletionDate = GETDATE() WHERE Id = {taskId}";
 
-            // 1.2 Cập nhật điểm tích lũy cho người chơi trong DB
-            string queryPlayer = $"UPDATE PlayerStats SET TotalExp += {expGain}, TotalCoin += {coinGain} WHERE Id = 1";
+            // 1.2 Cập nhật điểm và TẮT CÁC BUFF ĐÃ SỬ DỤNG
+            string updateBuffsSql = "";
+            if (Player.IsDoubleExpActive) updateBuffsSql += ", IsDoubleExpActive = 0";
+            if (Player.IsShieldActive && isOverdue) updateBuffsSql += ", IsShieldActive = 0";
 
-            // Thực thi lệnh SQL qua DatabaseHelper
+            string queryPlayer = $"UPDATE PlayerStats SET TotalExp += {expGain}, TotalCoin += {coinGain} {updateBuffsSql} WHERE Id = 1";
+
             bool taskUpdated = ToDoListApp.Helper.DatabaseHelper.ExecuteQuery(queryTask);
             bool playerUpdated = ToDoListApp.Helper.DatabaseHelper.ExecuteQuery(queryPlayer);
 
             if (taskUpdated && playerUpdated)
             {
-                // --- BƯỚC 2: CẬP NHẬT GIAO DIỆN (Chỉ chạy khi DB đã lưu xong) ---
+                // --- BƯỚC 2: CẬP NHẬT GIAO DIỆN & STATIC CLASS ---
 
-                // Cập nhật biến static để Sidebar thay đổi ngay lập tức
                 Player.TotalExp += expGain;
                 Player.TotalCoin += coinGain;
+
+                // Cập nhật lại trạng thái Buff trong code sau khi đã dùng xong
+                if (Player.IsDoubleExpActive) Player.IsDoubleExpActive = false;
+                if (Player.IsShieldActive && isOverdue) Player.IsShieldActive = false;
 
                 if (this.ParentForm is FrmMain mainForm)
                 {
                     mainForm.UpdateSidebarStats();
                 }
 
-                // Hiệu ứng xóa task khỏi danh sách
+                // Hiệu ứng xóa task (giữ nguyên của bạn)
                 System.Windows.Forms.Timer delay = new System.Windows.Forms.Timer { Interval = 500 };
                 delay.Tick += (s, args) => {
                     flpTasks.Controls.Remove(item);
@@ -118,9 +115,11 @@ namespace ToDoListApp
                     delay.Dispose();
                 };
                 delay.Start();
+
+                // Thông báo cho người chơi biết họ đã được Buff
+                if (Player.IsDoubleExpActive) MessageBox.Show("X2 EXP đã được áp dụng!");
             }
         }
-
         private void UpdateTotalPotentialRewards()
         {
             int totalEXP = 0;
@@ -215,6 +214,91 @@ namespace ToDoListApp
                     }
                 }
             }
+        }
+        public void LoadTasks()
+        {
+            flpTasks.Controls.Clear();
+
+            // Lấy giá trị lọc (Mặc định là All nếu chưa chọn)
+            string keyword = txtSearch.Text.Trim();
+            string filter = cboFilter.SelectedItem?.ToString().Trim() ?? "All";
+
+            // 1. Gốc câu lệnh SQL
+            string query = "SELECT * FROM Quests WHERE 1=1";
+
+            // 2. Lọc theo từ khóa tìm kiếm (nếu có)
+            if (!string.IsNullOrEmpty(keyword))
+                query += $" AND TaskName LIKE N'%{keyword}%'";
+
+            // 3. Logic lọc nâng cao theo yêu cầu của bạn
+            switch (filter)
+            {
+                case "All":
+                    // Hiển thị tất cả công việc chưa xong
+                    query += " AND IsDone = 0";
+                    break;
+
+                case "Today":
+                    // Công việc của ngày hôm nay và chưa xong
+                    query += " AND CAST(Deadline AS DATE) = CAST(GETDATE() AS DATE) AND IsDone = 0";
+                    break;
+
+                case "Pending":
+                    // CÔNG VIỆC TRỄ HẠN: Đã quá ngày deadline mà chưa xong
+                    query += " AND IsDone = 0 AND CAST(Deadline AS DATE) < CAST(GETDATE() AS DATE)";
+                    break;
+
+                case "Done":
+                    // Công việc đã hoàn thành
+                    query += " AND IsDone = 1";
+                    break;
+            }
+
+            // 4. Thực thi và đổ dữ liệu
+            DataTable dt = Helper.DatabaseHelper.GetData(query);
+            if (dt != null)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    Quest q = new Quest
+                    {
+                        Id = Convert.ToInt32(row["Id"]),
+                        Name = row["TaskName"].ToString(),
+                        BaseExp = Convert.ToInt32(row["BaseExp"]),
+                        BaseCoin = Convert.ToInt32(row["BaseCoin"]),
+                        Deadline = Convert.ToDateTime(row["Deadline"]),
+                        PriorityColor = Color.FromName(row["PriorityColor"].ToString()),
+                        IsDone = Convert.ToBoolean(row["IsDone"])
+                    };
+
+                    UC_TaskItem item = new UC_TaskItem(q);
+
+                    // Đăng ký các sự kiện cho nút Sửa/Xóa/Xong
+                    item.TaskCompleted += Item_TaskCompleted;
+                    item.TaskDeleted += Item_TaskDeleted;
+                    item.TaskEdited += Item_TaskEdited;
+
+                    // Nếu task đã xong (hoặc đang xem tab Done), ẩn checkbox và nút sửa
+                    if (q.IsDone)
+                    {
+                        item.DisableEditing();
+                    }
+
+                    flpTasks.Controls.Add(item);
+                }
+            }
+
+            // Cập nhật lại tổng điểm dự kiến ở thanh trạng thái dưới cùng
+            UpdateTotalPotentialRewards();
+        }
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadTasks(); // Gõ đến đâu, lọc đến đó
+        }
+
+        private void cboFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadTasks(); // Chọn xong là lọc luôn
         }
     }
 }

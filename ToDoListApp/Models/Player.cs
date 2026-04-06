@@ -8,6 +8,8 @@ namespace ToDoListApp.Models
     {
         public static int TotalExp { get; set; } = 0;
         public static int TotalCoin { get; set; } = 0;
+        public static bool IsDoubleExpActive { get; set; }
+        public static bool IsShieldActive { get; set; }
 
         // Định nghĩa các cột mốc EXP để đạt Level tiếp theo
         // Lv1: 0, Lv2: 100, Lv3: 300, Lv4: 700, Lv5: 1500

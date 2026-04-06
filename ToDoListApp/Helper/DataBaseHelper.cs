@@ -80,5 +80,17 @@ namespace ToDoListApp.Helper
                 Player.TotalCoin = Convert.ToInt32(dt.Rows[0]["TotalCoin"]);
             }
         }
+
+        public static object ExecuteScalar(string query)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    return cmd.ExecuteScalar(); // Trả về ô đầu tiên của kết quả
+                }
+            }
+        }
     }
 }
