@@ -1,4 +1,4 @@
-﻿namespace ToDoListApp
+﻿namespace ToDoListApp.Forms
 {
     partial class FrmMain
     {
@@ -34,18 +34,22 @@
             pnlPetFrame = new Panel();
             picPet = new PictureBox();
             panel2 = new Panel();
-            btnPending = new ReaLTaiizor.Controls.ParrotButton();
+            pictureBox1 = new PictureBox();
+            btnStatistics = new ReaLTaiizor.Controls.ParrotButton();
+            btnAchievements = new ReaLTaiizor.Controls.ParrotButton();
+            lblSidebarCoin = new Label();
             btnStore = new ReaLTaiizor.Controls.ParrotButton();
-            btnCompleted = new ReaLTaiizor.Controls.ParrotButton();
-            btnToday = new ReaLTaiizor.Controls.ParrotButton();
             btnAllTasks = new ReaLTaiizor.Controls.ParrotButton();
             pbExp = new ReaLTaiizor.Controls.ForeverProgressBar();
-            label1 = new Label();
+            lblLevel = new Label();
             panel1 = new Panel();
+            btnCloseApp = new Button();
             nightForm1.SuspendLayout();
             pnlPetFrame.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picPet).BeginInit();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // nightForm1
@@ -71,7 +75,8 @@
             // 
             // pnlContainer
             // 
-            pnlContainer.Dock = DockStyle.Fill;
+            pnlContainer.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            pnlContainer.BackColor = Color.Transparent;
             pnlContainer.Location = new Point(220, 81);
             pnlContainer.Name = "pnlContainer";
             pnlContainer.Size = new Size(862, 572);
@@ -102,42 +107,92 @@
             // 
             panel2.BackColor = Color.FromArgb(20, 20, 20);
             panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(btnPending);
+            panel2.Controls.Add(pictureBox1);
+            panel2.Controls.Add(btnStatistics);
+            panel2.Controls.Add(btnAchievements);
+            panel2.Controls.Add(lblSidebarCoin);
             panel2.Controls.Add(btnStore);
-            panel2.Controls.Add(btnCompleted);
-            panel2.Controls.Add(btnToday);
             panel2.Controls.Add(btnAllTasks);
             panel2.Controls.Add(pbExp);
-            panel2.Controls.Add(label1);
+            panel2.Controls.Add(lblLevel);
             panel2.Dock = DockStyle.Left;
             panel2.Location = new Point(0, 81);
             panel2.Name = "panel2";
             panel2.Size = new Size(220, 572);
             panel2.TabIndex = 1;
             // 
-            // btnPending
+            // pictureBox1
             // 
-            btnPending.BackgroundColor = Color.FromArgb(20, 20, 20);
-            btnPending.ButtonImage = null;
-            btnPending.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.Material;
-            btnPending.ButtonText = "Pending";
-            btnPending.ClickBackColor = Color.FromArgb(255, 107, 129);
-            btnPending.ClickTextColor = Color.White;
-            btnPending.CornerRadius = 5;
-            btnPending.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
-            btnPending.Horizontal_Alignment = StringAlignment.Center;
-            btnPending.HoverBackgroundColor = Color.FromArgb(255, 107, 129);
-            btnPending.HoverTextColor = Color.White;
-            btnPending.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
-            btnPending.Location = new Point(-1, 393);
-            btnPending.Name = "btnPending";
-            btnPending.Size = new Size(220, 45);
-            btnPending.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            btnPending.TabIndex = 9;
-            btnPending.TextColor = Color.White;
-            btnPending.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            btnPending.Vertical_Alignment = StringAlignment.Center;
-            btnPending.Click += btnPending_Click;
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Cursor = Cursors.Hand;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(167, 189);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(35, 31);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
+            // 
+            // btnStatistics
+            // 
+            btnStatistics.BackgroundColor = Color.FromArgb(20, 20, 20);
+            btnStatistics.ButtonImage = null;
+            btnStatistics.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.Material;
+            btnStatistics.ButtonText = "Statistics";
+            btnStatistics.ClickBackColor = Color.FromArgb(255, 107, 129);
+            btnStatistics.ClickTextColor = Color.White;
+            btnStatistics.CornerRadius = 5;
+            btnStatistics.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
+            btnStatistics.Horizontal_Alignment = StringAlignment.Center;
+            btnStatistics.HoverBackgroundColor = Color.FromArgb(255, 107, 129);
+            btnStatistics.HoverTextColor = Color.White;
+            btnStatistics.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
+            btnStatistics.Location = new Point(2, 444);
+            btnStatistics.Name = "btnStatistics";
+            btnStatistics.Size = new Size(220, 45);
+            btnStatistics.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            btnStatistics.TabIndex = 12;
+            btnStatistics.TextColor = Color.White;
+            btnStatistics.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            btnStatistics.Vertical_Alignment = StringAlignment.Center;
+            btnStatistics.Click += btnStatistics_Click;
+            // 
+            // btnAchievements
+            // 
+            btnAchievements.BackgroundColor = Color.FromArgb(20, 20, 20);
+            btnAchievements.ButtonImage = null;
+            btnAchievements.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.Material;
+            btnAchievements.ButtonText = "Achievements";
+            btnAchievements.ClickBackColor = Color.FromArgb(255, 107, 129);
+            btnAchievements.ClickTextColor = Color.White;
+            btnAchievements.CornerRadius = 5;
+            btnAchievements.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
+            btnAchievements.Horizontal_Alignment = StringAlignment.Center;
+            btnAchievements.HoverBackgroundColor = Color.FromArgb(255, 107, 129);
+            btnAchievements.HoverTextColor = Color.White;
+            btnAchievements.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
+            btnAchievements.Location = new Point(-1, 393);
+            btnAchievements.Name = "btnAchievements";
+            btnAchievements.Size = new Size(220, 45);
+            btnAchievements.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            btnAchievements.TabIndex = 11;
+            btnAchievements.TextColor = Color.White;
+            btnAchievements.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            btnAchievements.Vertical_Alignment = StringAlignment.Center;
+            btnAchievements.Click += btnAchievements_Click;
+            // 
+            // lblSidebarCoin
+            // 
+            lblSidebarCoin.AutoSize = true;
+            lblSidebarCoin.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblSidebarCoin.ForeColor = Color.White;
+            lblSidebarCoin.Location = new Point(22, 189);
+            lblSidebarCoin.Name = "lblSidebarCoin";
+            lblSidebarCoin.Size = new Size(110, 28);
+            lblSidebarCoin.TabIndex = 10;
+            lblSidebarCoin.Text = "Coins: 100";
+            lblSidebarCoin.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnStore
             // 
@@ -153,7 +208,7 @@
             btnStore.HoverBackgroundColor = Color.FromArgb(255, 107, 129);
             btnStore.HoverTextColor = Color.White;
             btnStore.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
-            btnStore.Location = new Point(-1, 495);
+            btnStore.Location = new Point(-1, 342);
             btnStore.Name = "btnStore";
             btnStore.Size = new Size(220, 45);
             btnStore.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -161,61 +216,14 @@
             btnStore.TextColor = Color.White;
             btnStore.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             btnStore.Vertical_Alignment = StringAlignment.Center;
-            // 
-            // btnCompleted
-            // 
-            btnCompleted.BackgroundColor = Color.FromArgb(20, 20, 20);
-            btnCompleted.ButtonImage = null;
-            btnCompleted.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.Material;
-            btnCompleted.ButtonText = "Completed";
-            btnCompleted.ClickBackColor = Color.FromArgb(255, 107, 129);
-            btnCompleted.ClickTextColor = Color.White;
-            btnCompleted.CornerRadius = 5;
-            btnCompleted.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
-            btnCompleted.Horizontal_Alignment = StringAlignment.Center;
-            btnCompleted.HoverBackgroundColor = Color.FromArgb(255, 107, 129);
-            btnCompleted.HoverTextColor = Color.White;
-            btnCompleted.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
-            btnCompleted.Location = new Point(-1, 444);
-            btnCompleted.Name = "btnCompleted";
-            btnCompleted.Size = new Size(220, 45);
-            btnCompleted.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            btnCompleted.TabIndex = 7;
-            btnCompleted.TextColor = Color.White;
-            btnCompleted.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            btnCompleted.Vertical_Alignment = StringAlignment.Center;
-            btnCompleted.Click += btnCompleted_Click;
-            // 
-            // btnToday
-            // 
-            btnToday.BackgroundColor = Color.FromArgb(20, 20, 20);
-            btnToday.ButtonImage = null;
-            btnToday.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.Material;
-            btnToday.ButtonText = "Today";
-            btnToday.ClickBackColor = Color.FromArgb(255, 107, 129);
-            btnToday.ClickTextColor = Color.White;
-            btnToday.CornerRadius = 5;
-            btnToday.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
-            btnToday.Horizontal_Alignment = StringAlignment.Center;
-            btnToday.HoverBackgroundColor = Color.FromArgb(255, 107, 129);
-            btnToday.HoverTextColor = Color.White;
-            btnToday.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
-            btnToday.Location = new Point(-1, 342);
-            btnToday.Name = "btnToday";
-            btnToday.Size = new Size(220, 45);
-            btnToday.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            btnToday.TabIndex = 6;
-            btnToday.TextColor = Color.White;
-            btnToday.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            btnToday.Vertical_Alignment = StringAlignment.Center;
-            btnToday.Click += btnToday_Click;
+            btnStore.Click += btnStore_Click;
             // 
             // btnAllTasks
             // 
             btnAllTasks.BackgroundColor = Color.FromArgb(214, 78, 99);
             btnAllTasks.ButtonImage = null;
             btnAllTasks.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.Material;
-            btnAllTasks.ButtonText = "All Tasks";
+            btnAllTasks.ButtonText = "Tasks";
             btnAllTasks.ClickBackColor = Color.FromArgb(255, 107, 129);
             btnAllTasks.ClickTextColor = Color.White;
             btnAllTasks.CornerRadius = 5;
@@ -240,7 +248,7 @@
             pbExp.BaseColor = Color.FromArgb(45, 47, 49);
             pbExp.DarkerProgress = Color.FromArgb(214, 78, 99);
             pbExp.ForeColor = Color.FromArgb(214, 78, 99);
-            pbExp.Location = new Point(22, 206);
+            pbExp.Location = new Point(3, 243);
             pbExp.Maximum = 100;
             pbExp.MoveBalloon = true;
             pbExp.Name = "pbExp";
@@ -248,32 +256,48 @@
             pbExp.PercentSign = false;
             pbExp.ProgressColor = Color.FromArgb(255, 107, 129);
             pbExp.ShowBalloon = true;
-            pbExp.Size = new Size(180, 42);
+            pbExp.Size = new Size(199, 42);
             pbExp.TabIndex = 5;
             pbExp.Text = "foreverProgressBar1";
             pbExp.Value = 70;
             // 
-            // label1
+            // lblLevel
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(55, 172);
-            label1.Name = "label1";
-            label1.Size = new Size(109, 31);
-            label1.TabIndex = 0;
-            label1.Text = "LEVEL 08";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
+            lblLevel.AutoSize = true;
+            lblLevel.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblLevel.ForeColor = Color.White;
+            lblLevel.Location = new Point(55, 141);
+            lblLevel.Name = "lblLevel";
+            lblLevel.Size = new Size(109, 31);
+            lblLevel.TabIndex = 0;
+            lblLevel.Text = "LEVEL 08";
+            lblLevel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(255, 107, 129);
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(btnCloseApp);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 31);
             panel1.Name = "panel1";
             panel1.Size = new Size(1082, 50);
             panel1.TabIndex = 0;
+            // 
+            // btnCloseApp
+            // 
+            btnCloseApp.Cursor = Cursors.Hand;
+            btnCloseApp.FlatStyle = FlatStyle.Flat;
+            btnCloseApp.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCloseApp.ForeColor = Color.White;
+            btnCloseApp.Location = new Point(1032, 13);
+            btnCloseApp.Margin = new Padding(5);
+            btnCloseApp.Name = "btnCloseApp";
+            btnCloseApp.Size = new Size(35, 30);
+            btnCloseApp.TabIndex = 0;
+            btnCloseApp.Text = "X";
+            btnCloseApp.UseVisualStyleBackColor = true;
+            btnCloseApp.Click += btnCloseApp_Click;
             // 
             // FrmMain
             // 
@@ -294,6 +318,8 @@
             ((System.ComponentModel.ISupportInitialize)picPet).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -304,15 +330,18 @@
         private Panel panel1;
         private Panel pnlPetFrame;
         private PictureBox picPet;
-        private Label label1;
+        private Label lblLevel;
         private ReaLTaiizor.Controls.ForeverProgressBar pbExp;
         private ReaLTaiizor.Controls.ParrotButton btnAllTasks;
         private ReaLTaiizor.Controls.ParrotButton parrotButton3;
         private ReaLTaiizor.Controls.ParrotButton parrotButton2;
-        private ReaLTaiizor.Controls.ParrotButton btnToday;
         private ReaLTaiizor.Controls.ParrotButton btnStore;
-        private ReaLTaiizor.Controls.ParrotButton btnCompleted;
-        private Panel pnlContainer;
-        private ReaLTaiizor.Controls.ParrotButton btnPending;
+        private Label lblSidebarCoin;
+        private Button btnCloseApp;
+        private ReaLTaiizor.Controls.ParrotButton parrotButton4;
+        private ReaLTaiizor.Controls.ParrotButton btnAchievements;
+        private ReaLTaiizor.Controls.ParrotButton btnStatistics;
+        private PictureBox pictureBox1;
+        public Panel pnlContainer;
     }
 }

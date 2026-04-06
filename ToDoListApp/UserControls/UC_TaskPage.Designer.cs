@@ -38,9 +38,14 @@
             parrotGradientPanel2 = new ReaLTaiizor.Controls.ParrotGradientPanel();
             lblTotalEXP = new Label();
             label4 = new Label();
+            btnAddQuest = new Button();
+            panel2 = new Panel();
+            txtSearch = new TextBox();
+            cboFilter = new ComboBox();
             panel1.SuspendLayout();
             parrotGradientPanel1.SuspendLayout();
             parrotGradientPanel2.SuspendLayout();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -182,11 +187,54 @@
             label4.TabIndex = 1;
             label4.Text = "EXP :";
             // 
+            // btnAddQuest
+            // 
+            btnAddQuest.BackColor = Color.White;
+            btnAddQuest.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAddQuest.ForeColor = Color.FromArgb(255, 107, 129);
+            btnAddQuest.Location = new Point(759, 56);
+            btnAddQuest.Name = "btnAddQuest";
+            btnAddQuest.Size = new Size(69, 47);
+            btnAddQuest.TabIndex = 6;
+            btnAddQuest.Text = "+";
+            btnAddQuest.TextAlign = ContentAlignment.TopCenter;
+            btnAddQuest.UseVisualStyleBackColor = false;
+            btnAddQuest.Click += btnAddQuest_Click;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(txtSearch);
+            panel2.Location = new Point(358, 56);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(386, 47);
+            panel2.TabIndex = 7;
+            // 
+            // txtSearch
+            // 
+            txtSearch.Location = new Point(3, 10);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(251, 27);
+            txtSearch.TabIndex = 0;
+            txtSearch.TextChanged += txtSearch_TextChanged;
+            // 
+            // cboFilter
+            // 
+            cboFilter.FormattingEnabled = true;
+            cboFilter.Items.AddRange(new object[] { "All", "Today", "Pending", "Done" });
+            cboFilter.Location = new Point(629, 65);
+            cboFilter.Name = "cboFilter";
+            cboFilter.Size = new Size(112, 28);
+            cboFilter.TabIndex = 0;
+            cboFilter.SelectedIndexChanged += cboFilter_SelectedIndexChanged;
+            // 
             // UC_TaskPage
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(15, 15, 15);
+            Controls.Add(cboFilter);
+            Controls.Add(panel2);
+            Controls.Add(btnAddQuest);
             Controls.Add(parrotGradientPanel2);
             Controls.Add(parrotGradientPanel1);
             Controls.Add(panel1);
@@ -200,6 +248,8 @@
             parrotGradientPanel1.PerformLayout();
             parrotGradientPanel2.ResumeLayout(false);
             parrotGradientPanel2.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -216,5 +266,9 @@
         private Label lblTotalEXP;
         private Label label4;
         private Label lblTotalCoin;
+        private Button btnAddQuest;
+        private Panel panel2;
+        private TextBox txtSearch;
+        private ComboBox cboFilter;
     }
 }

@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Net.NetworkInformation;
 using System.Text;
+using ToDoListApp.Models;
 
 
 namespace ToDoListApp.Helper
 {
     internal class DatabaseHelper
     {
-        private static readonly string connectionString = @"Server=.\SQLEXPRESS;Database=ToDoAppDB;Intergrated Security=True;TrustServerCertificate=True;";
+        private static readonly string connectionString = @"Server=.\SQLEXPRESS;Database=TodoGameDB;Integrated Security=True;TrustServerCertificate=True;";
 
         // Ham mo cong ket noi
         public static SqlConnection GetConnection()
@@ -63,6 +64,32 @@ namespace ToDoListApp.Helper
             {
                 MessageBox.Show("Lỗi thực thi lệnh: " + ex.Message, "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
+            }
+        }
+
+        public static void LoadPlayerStats()
+        {
+            // 1. Lấy dữ liệu từ bảng PlayerStats (Id = 1)
+            string query = "SELECT TotalExp, TotalCoin FROM PlayerStats WHERE Id = 1";
+            DataTable dt = ToDoListApp.Helper.DatabaseHelper.GetData(query);
+
+            if (dt.Rows.Count > 0)
+            {
+                // 2. Gán dữ liệu vào Class static Player
+                Player.TotalExp = Convert.ToInt32(dt.Rows[0]["TotalExp"]);
+                Player.TotalCoin = Convert.ToInt32(dt.Rows[0]["TotalCoin"]);
+            }
+        }
+
+        public static object ExecuteScalar(string query)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    return cmd.ExecuteScalar(); // Trả về ô đầu tiên của kết quả
+                }
             }
         }
     }
