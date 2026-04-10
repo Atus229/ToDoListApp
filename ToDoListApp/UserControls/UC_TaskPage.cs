@@ -87,10 +87,10 @@ namespace ToDoListApp
 
             string queryPlayer = $"UPDATE PlayerStats SET TotalExp += {expGain}, TotalCoin += {coinGain} {updateBuffsSql} WHERE Id = 1";
 
-            bool taskUpdated = ToDoListApp.Helper.DatabaseHelper.ExecuteQuery(queryTask);
-            bool playerUpdated = ToDoListApp.Helper.DatabaseHelper.ExecuteQuery(queryPlayer);
+            int taskUpdated = ToDoListApp.Helper.DatabaseHelper.ExecuteQuery(queryTask);
+            int playerUpdated = ToDoListApp.Helper.DatabaseHelper.ExecuteQuery(queryPlayer);
 
-            if (taskUpdated && playerUpdated)
+            if (taskUpdated > 0 && playerUpdated > 0)
             {
                 // --- BƯỚC 2: CẬP NHẬT GIAO DIỆN & STATIC CLASS ---
 
@@ -149,7 +149,7 @@ namespace ToDoListApp
                     $"VALUES (N'{q.Name}', {q.BaseExp}, {q.BaseCoin}, '{q.Deadline:yyyy-MM-dd HH:mm:ss}', '{q.PriorityColor.Name}', 0)";
 
                     // 2. Thực thi qua DatabaseHelper
-                    if (Helper.DatabaseHelper.ExecuteQuery(query))
+                    if (Helper.DatabaseHelper.ExecuteQuery(query) > 0)
                     {
                         // Load lại trang để cập nhật danh sách mới từ DB
                         UC_TaskPage_Load(null, null);
@@ -168,7 +168,7 @@ namespace ToDoListApp
             string query = $"DELETE FROM Quests WHERE Id = {taskId}";
 
             // 3. Thực thi xóa trong Database trước
-            if (ToDoListApp.Helper.DatabaseHelper.ExecuteQuery(query))
+            if (ToDoListApp.Helper.DatabaseHelper.ExecuteQuery(query) > 0)
             {
                 // 4. Nếu DB xóa thành công thì mới xóa trên UI cho đồng bộ
                 flpTasks.Controls.Remove(item);
@@ -202,7 +202,7 @@ namespace ToDoListApp
                                  PriorityColor = '{q.PriorityColor.Name}' 
                              WHERE Id = {q.Id}";
 
-                    if (ToDoListApp.Helper.DatabaseHelper.ExecuteQuery(query))
+                    if (ToDoListApp.Helper.DatabaseHelper.ExecuteQuery(query) > 0)
                     {
                         // SAU KHI LƯU XONG: Phải gọi hàm Load để vẽ lại danh sách trên màn hình
                         UC_TaskPage_Load(null, null);

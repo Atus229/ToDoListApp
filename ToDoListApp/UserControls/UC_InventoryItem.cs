@@ -42,13 +42,15 @@ namespace ToDoListApp.UserControls
             switch (itemName)
             {
                 case "X2 EXP":
-                    isSuccess = Helper.DatabaseHelper.ExecuteQuery("UPDATE PlayerStats SET IsDoubleExpActive = 1 WHERE Id = 1");
+                    int r1 = Helper.DatabaseHelper.ExecuteQuery("UPDATE PlayerStats SET IsDoubleExpActive = 1 WHERE Id = 1");
+                    isSuccess = r1 > 0;
                     if (isSuccess) MessageBox.Show("Kích hoạt X2 EXP cho nhiệm vụ tiếp theo!");
                     if (isSuccess) Player.IsDoubleExpActive = true;
                     break;
 
                 case "Shield":
-                    isSuccess = Helper.DatabaseHelper.ExecuteQuery("UPDATE PlayerStats SET IsShieldActive = 1 WHERE Id = 1");
+                    int r2 = Helper.DatabaseHelper.ExecuteQuery("UPDATE PlayerStats SET IsShieldActive = 1 WHERE Id = 1");
+                    isSuccess = r2 > 0;
                     if (isSuccess) MessageBox.Show("Khiên bảo vệ đã bật! Bạn sẽ không bị trừ điểm nếu trễ hạn.");
                     if (isSuccess) Player.IsShieldActive = true;
                     break;
@@ -125,7 +127,7 @@ namespace ToDoListApp.UserControls
         {
             // Trừ 1 trong DB
             string query = $"UPDATE Inventory SET Quantity = Quantity - 1 WHERE Id = {_item.InventoryId}";
-            if (Helper.DatabaseHelper.ExecuteQuery(query))
+            if (Helper.DatabaseHelper.ExecuteQuery(query) > 0)
             {
                 // Xóa nếu bằng 0
                 Helper.DatabaseHelper.ExecuteQuery("DELETE FROM Inventory WHERE Quantity <= 0");

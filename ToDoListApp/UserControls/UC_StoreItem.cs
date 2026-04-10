@@ -58,9 +58,9 @@ namespace ToDoListApp.UserControls
 
             // 3. THỰC HIỆN THANH TOÁN (Trừ tiền trong DB)
             string queryUpdateCoin = $"UPDATE PlayerStats SET TotalCoin -= {_item.Price} WHERE Id = 1";
-            bool isPaid = Helper.DatabaseHelper.ExecuteQuery(queryUpdateCoin);
+            int paidRows = Helper.DatabaseHelper.ExecuteQuery(queryUpdateCoin);
 
-            if (isPaid)
+            if (paidRows > 0)
             {
                 // Cập nhật lại biến static và giao diện Sidebar ngay lập tức
                 Player.TotalCoin -= _item.Price;
